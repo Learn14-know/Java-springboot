@@ -1,0 +1,25 @@
+replicaCount: 2
+
+image:
+  repository: demorg1.azurecr.io/java-springboot
+  tag: latest
+  pullPolicy: IfNotPresent
+
+color: green # Change to blue for blue-green deployment
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  path: "/{{ .Values.color }}"
+  className: "nginx"
+  host: "yourdomain.com"
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  cpuUtilization: 50
